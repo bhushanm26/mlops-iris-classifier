@@ -28,7 +28,11 @@ def train_model(X_train, y_train, n_estimators=100, max_depth=None):
 def evaluate_model(model, X_test, y_test):
     predictions = model.predict(X_test)
     acc = accuracy_score(y_test, predictions)
-    report = classification_report(y_test, predictions)
+    report = classification_report(
+        y_test,
+        predictions,
+        target_names=["setosa", "versicolor", "virginica"]
+    )
     return acc, report
 
 
@@ -37,7 +41,7 @@ def main():
     model = train_model(X_train, y_train)
     acc, report = evaluate_model(model, X_test, y_test)
 
-    print(f"Accuracy: {acc:.4f}")
+    print(f"Test Accuracy: {acc:.4f}")
     print(report)
 
     joblib.dump(model, "models/iris_model.joblib")
