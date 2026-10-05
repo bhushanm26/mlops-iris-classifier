@@ -63,7 +63,10 @@ def validate_data(input_path: str) -> pd.DataFrame:
             f"Missing columns: {missing_columns}"
         )
 
-    null_counts = df[EXPECTED_COLUMNS].isna().sum()
+    present_columns = [
+        col for col in EXPECTED_COLUMNS if col in df.columns
+    ]
+    null_counts = df[present_columns].isna().sum()
 
     for col, count in null_counts.items():
         if count > 0:
